@@ -25,7 +25,6 @@
 
 #include <string>
 #include "googleapis/base/integral_types.h"
-#include "googleapis/base/scoped_ptr.h"
 #include "googleapis/client/service/client_service.h"
 #include "googleapis/client/service/media_uploader.h"
 #include "googleapis/client/service/service_request_pager.h"

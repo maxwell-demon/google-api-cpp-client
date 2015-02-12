@@ -260,6 +260,7 @@ class PackageInstaller(object):
     self._extra_cppflags = ''
     self._extra_ldflags = ''
     self._make_target = make_target
+    print "url " + url
     self._archive_file = os.path.split(url)[1]
     if not package_name:
       package_name = PackageInstaller._ArchiveToPackage(self._archive_file)
@@ -664,7 +665,7 @@ class MongoosePackageInstaller(PackageInstaller):
     """Standard PackageInstaller initializer."""
     super(MongoosePackageInstaller, self).__init__(config, url)
     self._config_type = CMAKE_CONFIG
-    self._package_path = os.path.join(self._config.download_dir, 'mongoose')
+    self._package_path = os.path.join(self._config.download_dir, 'mongoose-master')
 
   def MaybeTweakAfterUnpackage(self):
     """Creates a CMakeLists.txt file for building the package."""
@@ -1041,6 +1042,7 @@ class Installer(object):
     # If non-empty then just prepare these packages.
     # The entries here are keys in url_map
     self._restricted_packages = restricted_package_names
+    print restricted_package_names
 
     self._url_map = {}
     if config.port == WINDOWS_PLATFORM or config.port == CYGWIN_PLATFORM:
@@ -1050,7 +1052,7 @@ class Installer(object):
               config,
               'http://www.cmake.org/files/v2.8/cmake-2.8.10.2-win32-x86.exe')),
 
-          'openssl': (IgnorePackageInstaller(config, 'ignoring_openssl')),
+          #'openssl': (IgnorePackageInstaller(config, 'ignoring_openssl')),
       })
     else:
       self._url_map.update({
@@ -1064,8 +1066,8 @@ class Installer(object):
           # the OpenSslCodec library for the OpenSslCodec for data encryption.
           # The OpenSslCodec is not requird so if you get an https transport
           # from somewhere else then you do not need this dependency.
-          'openssl': (OpenSslPackageInstaller(
-              config, 'http://www.openssl.org/source/openssl-1.0.1e.tar.gz')),
+          #'openssl': (OpenSslPackageInstaller(
+          #    config, 'http://www.openssl.org/source/openssl-1.0.1e.tar.gz')),
           })
 
     self._url_map.update({
@@ -1102,8 +1104,7 @@ class Installer(object):
         # a new tarball URL.
         'mongoose': (MongoosePackageInstaller(
             config,
-            'https://github.com/cesanta/mongoose/tarball'
-            '/a0e54945695118340545f676c95713ce8aec655f')),
+            'https://github.com/cesanta/mongoose/archive/master.zip')),
 
         'curl': (CurlPackageInstaller(
             config, 'http://curl.haxx.se/download/curl-7.30.0.tar.gz')),
@@ -1112,7 +1113,7 @@ class Installer(object):
     # make sure cmake occurs first since others may depend on it
     if not self._restricted_packages:
       self._restricted_packages = self._url_map.keys()
-      ordered_packages = ['cmake', 'openssl', 'glog']
+      ordered_packages = ['cmake', 'glog']
       for p in ordered_packages:
         self._restricted_packages.remove(p)
       self._restricted_packages = ordered_packages + self._restricted_packages
@@ -1156,6 +1157,7 @@ if __name__ == '__main__':
            + '[--download_dir=<path>] [--install_dir=<path>] [--force]')
     sys.exit(1)
 
+  print restricted_packages
   installer = Installer(config_info, restricted_packages)
 
   processed_packages = installer.Run()
