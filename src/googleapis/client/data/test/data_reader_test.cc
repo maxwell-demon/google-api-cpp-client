@@ -19,6 +19,7 @@
 
 
 #include "googleapis/client/data/data_reader.h"
+#include <memory>
 #include <string>
 using std::string;
 

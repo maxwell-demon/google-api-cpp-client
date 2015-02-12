@@ -19,6 +19,9 @@
 #ifndef GOOGLEAPIS_ESCAPING_H_  // NOLINT
 #define GOOGLEAPIS_ESCAPING_H_
 #include <string>
+
+#include "googleapis/strings/stringpiece.h"
+
 namespace googleapis {
 using std::string;
 
@@ -36,6 +39,9 @@ int Base64Unescape(const char *src, int szsrc, char *dest, int szdest);
 bool Base64Unescape(const char *src, int szsrc, string* dest);
 inline int Base64Unescape(const string& src, string* dest) {
   return Base64Unescape(src.data(), src.size(), dest);
+}
+inline int Base64Unescape(StringPiece src, string* dst) {
+  return Base64Unescape(src.data(), src.length(), dst);
 }
 
 int WebSafeBase64Unescape(const char *src, int szsrc, char *dest, int szdest);

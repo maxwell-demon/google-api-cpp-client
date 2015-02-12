@@ -41,7 +41,7 @@ using std::swap;
 #include <glog/logging.h>
 #include "googleapis/util/file.h"
 #include "googleapis/strings/strcat.h"
-#include "googleapis/util/canonical_errors.h"
+//#include "googleapis/util/canonical_errors.h"
 #include "googleapis/util/status.h"
 
 namespace googleapis {

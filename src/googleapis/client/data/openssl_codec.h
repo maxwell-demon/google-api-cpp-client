@@ -23,6 +23,7 @@
 
 #include <string>
 using std::string;
+#include <glog/logging.h>
 #include "googleapis/client/data/codec.h"
 #include "googleapis/base/macros.h"
 #include "googleapis/strings/stringpiece.h"

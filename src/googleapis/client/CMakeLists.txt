@@ -1,5 +1,4 @@
 # NOTE: cmake -D CURL_STATICLIB=string:ON to build curl library with static lib
-
 project (GoogleApis_C++_Client)
 
 # just for testing
@@ -51,25 +50,25 @@ install(FILES util/date_time.h
               util/uri_utils.h
         DESTINATION ${GOOGLEAPIS_INSTALL_INCLUDE_DIR}/client/util)
 
-add_library(googleapis_mongoose STATIC
-            util/abstract_webserver.cc
-            util/mongoose_webserver.cc
-            auth/webserver_authorization_getter.cc)
-target_link_libraries(googleapis_mongoose googleapis_oauth2)
-target_link_libraries(googleapis_mongoose googleapis_utils)
-target_link_libraries(googleapis_mongoose ${GLOG_LIBRARY})
-target_link_libraries(googleapis_mongoose mongoose)
-if (MSVC)
-else()
-target_link_libraries(googleapis_mongoose dl)  # for mongoose
-endif()
+#add_library(googleapis_mongoose STATIC
+#            util/abstract_webserver.cc
+#            util/mongoose_webserver.cc
+#            auth/webserver_authorization_getter.cc)
+#target_link_libraries(googleapis_mongoose googleapis_oauth2)
+#target_link_libraries(googleapis_mongoose googleapis_utils)
+#target_link_libraries(googleapis_mongoose ${GLOG_LIBRARY})
+#target_link_libraries(googleapis_mongoose mongoose)
+#if (MSVC)
+#else()
+#target_link_libraries(googleapis_mongoose dl)  # for mongoose
+#endif()
 
-install(TARGETS googleapis_mongoose DESTINATION
-                ${GOOGLEAPIS_INSTALL_LIB_DIR})
-install(FILES util/mongoose_webserver.h
-        DESTINATION ${GOOGLEAPIS_INSTALL_INCLUDE_DIR}/client/util)
-install(FILES auth/oauth2_pending_authorizations.h
-        DESTINATION ${GOOGLEAPIS_INSTALL_INCLUDE_DIR}/client/auth)
+#install(TARGETS googleapis_mongoose DESTINATION
+#                ${GOOGLEAPIS_INSTALL_LIB_DIR})
+#install(FILES util/mongoose_webserver.h
+#        DESTINATION ${GOOGLEAPIS_INSTALL_INCLUDE_DIR}/client/util)
+#install(FILES auth/oauth2_pending_authorizations.h
+#        DESTINATION ${GOOGLEAPIS_INSTALL_INCLUDE_DIR}/client/auth)
 
 # A concrete JSON implementation using JsonCpp (external package).
 add_library(googleapis_jsoncpp STATIC data/jsoncpp_data.cc)
@@ -257,7 +256,6 @@ client_test(data data_reader_test googleapis_utils)
 client_test(data data_writer_test googleapis_utils)
 client_test(data file_data_reader_test googleapis_utils)
 client_test(data inmemory_data_reader_test googleapis_utils)
-client_test(data istream_data_reader_test googleapis_utils)
 if (HAVE_OPENSSL)
 client_test(data openssl_codec_test googleapis_utils googleapis_openssl_codec)
 endif()
@@ -268,15 +266,8 @@ googleapis_test(transport http_request_batch_test)
 googleapis_test(transport http_scribe_test)
 googleapis_test(transport html_scribe_test googleapis_scribes)
 googleapis_test(transport http_transport_test)
-googleapis_test(transport curl_http_transport_test
-                googleapis_http_transport_test_fixture
-                googleapis_curl_http)
-googleapis_test(transport json_playback_transport_test
-                googleapis_http_transport_test_fixture
-                googleapis_jsonplayback)
+
 # The data file within the test is specified relative to the base build tree.
-SET_TESTS_PROPERTIES(json_playback_transport_test PROPERTIES
-                     WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
 
 googleapis_test(service client_service_test)
 googleapis_test(service media_uploader_test)
@@ -284,26 +275,26 @@ googleapis_test(service service_request_pager_test)
 
 
 # This is a test but dont treat it as one because it isnt automated.
-add_executable(interactive_oauth2_authorization_test
-           auth/test/interactive_oauth2_authorization_test.cc)
+#add_executable(interactive_oauth2_authorization_test
+#           auth/test/interactive_oauth2_authorization_test.cc)
 
-target_link_libraries(interactive_oauth2_authorization_test
-                      googleapis_json)
-target_link_libraries(interactive_oauth2_authorization_test
-                      googleapis_http)
-target_link_libraries(interactive_oauth2_authorization_test
-                      googleapis_internal)
-target_link_libraries(interactive_oauth2_authorization_test
-                      googleapis_curl_http)
-target_link_libraries(interactive_oauth2_authorization_test
-                      googleapis_mongoose)
-target_link_libraries(interactive_oauth2_authorization_test
-                      googleapis_internal)
-target_link_libraries(interactive_oauth2_authorization_test
-                      googleapis_gtest_main)
-target_link_libraries(interactive_oauth2_authorization_test
-                      ${GLOG_LIBRARY})
-target_link_libraries(interactive_oauth2_authorization_test
-                      ${GFLAGS_LIBRARY})
+#target_link_libraries(interactive_oauth2_authorization_test
+#                      googleapis_json)
+#target_link_libraries(interactive_oauth2_authorization_test
+#                      googleapis_http)
+#target_link_libraries(interactive_oauth2_authorization_test
+#                      googleapis_internal)
+#target_link_libraries(interactive_oauth2_authorization_test
+#        googleapis_curl_http)
+#target_link_libraries(interactive_oauth2_authorization_test
+#                      googleapis_mongoose)
+#target_link_libraries(interactive_oauth2_authorization_test
+#                      googleapis_internal)
+#target_link_libraries(interactive_oauth2_authorization_test
+#                      googleapis_gtest_main)
+#target_link_libraries(interactive_oauth2_authorization_test
+#                      ${GLOG_LIBRARY})
+#target_link_libraries(interactive_oauth2_authorization_test
+#                      ${GFLAGS_LIBRARY})
 
 endif()  # googleapis_build_tests

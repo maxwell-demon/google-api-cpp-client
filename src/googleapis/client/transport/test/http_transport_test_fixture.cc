@@ -316,8 +316,8 @@ WaxService& HttpTransportTestFixture::GetGlobalWaxService() {
     }
 
     // No point in continuing if we cannot get this far.
-    CHECK(got_status.ok()) << got_status
-                           << " / http_code=" << http_response->http_code();
+    CHECK(got_status.ok()); // << got_status
+                            // << " / http_code=" << http_response->http_code();
 
     EXPECT_EQ(200, http_response->http_code());
     if (http_response->ok()) {
@@ -356,7 +356,7 @@ HttpTransportTestFixture::HttpTransportTestFixture() {
     client::DataWriter* writer =
         client::NewFileDataWriter(path);
     LOG(INFO) << "Scribing HttpTransport activity to " << path;
-    CHECK(writer->status().ok()) << writer->status();
+    CHECK(writer->status().ok()); // << writer->status();
 
     client::HttpScribe* scribe;
     client::HttpScribeCensor* censor =
@@ -520,7 +520,7 @@ TEST_F(HttpTransportTestFixture, TestTimeout) {
     if (i == 0) {
       LOG(WARNING) << "Expected timeout (ms=" << timeout_ms << ") but got"
                    << " state=" << http_response->request_state_code()
-                   << " status=" << http_response->transport_status()
+                //   << " status=" << http_response->transport_status()
                    << ". This might be intermittent -- trying again.";
     }
   }
@@ -759,7 +759,7 @@ static void GatherAsyncResponse(
     int i, Mutex* mutex, vector<HttpRequest*>* got, int* remaining,
     HttpRequest* request) {
   HttpResponse* response = request->response();
-  VLOG(1) << "*** Got Response for i=" << i << " status=" << response->status();
+  VLOG(1) << "*** Got Response for i=" << i << " status="; // << response->status();
   if (!response->ok()) {
     if (response->body_reader()) {
       LOG(ERROR) << "ERROR BODY\n\n"
@@ -778,7 +778,7 @@ static void GatherAsyncResponse(
 
 static void VerifyAsyncResponse(int i, int expect_len, HttpRequest* request) {
   HttpResponse* response = request->response();
-  VLOG(1) << "*** Got Response for i=" << i << " status=" << response->status();
+  VLOG(1) << "*** Got Response for i=" << i; // << " status=" << response->status();
   MAYBE_CANCEL_TEST_ON_503(response->http_code());
 
   ASSERT_TRUE(response->ok()) << "i=" << i;

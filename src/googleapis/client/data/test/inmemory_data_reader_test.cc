@@ -17,7 +17,7 @@
  * @}
  */
 
-
+#include <memory>
 #include <string>
 using std::string;
 #include "googleapis/client/data/data_reader.h"

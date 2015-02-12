@@ -44,6 +44,7 @@ using std::pair;
 #include <vector>
 using std::vector;
 
+#include <glog/logging.h>
 #include "googleapis/client/data/serializable_json.h"
 #include "googleapis/client/data/jsoncpp_data_helpers.h"
 #include "googleapis/base/macros.h"
